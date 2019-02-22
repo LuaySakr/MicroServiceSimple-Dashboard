@@ -11,12 +11,13 @@ const mongoose = require('mongoose');
 const app = express();
 
 // Load routes
-const ideas = require('./routes/ideas');
+const vehicles = require('./routes/vehicles');
+const customers = require('./routes/customers');
+const vehicleOwners = require('./routes/vehicleOwners');
 const users = require('./routes/users');
 const customer_api = require('./config/customer');
-// exports('customer_api');
-// const zh = require('./config/zipkin');
-// const zh = require('./config/zipkin');
+const vehicle_api = require('./config/vehicle');
+const vehicleOwner_api = require('./config/vehicleowner');
 
 const zh = require('./config/zipkin');
 const appzip = require('appmetrics-zipkin')({
@@ -95,7 +96,9 @@ app.get('/about', (req, res) => {
 
 
 // Use routes
-app.use('/ideas', ideas);
+app.use('/vehicleOwners', vehicleOwners);
+app.use('/vehicles', vehicles);
+app.use('/customers', customers);
 app.use('/users', users);
 
 const port = process.env.PORT || 7004;

@@ -4,13 +4,16 @@ const router = express.Router();
 const {ensureAuthenticated} = require('../helpers/auth');
 const request = require("request");
 const requestPr = require("request-promise");
-const customer_api = require('../config/customer');
-// Load Idea Model
-require('../models/Idea');
-const Idea = mongoose.model('ideas');
 
 
-// Idea Index Page
+const vehicleowner_api = require('../config/vehicleowner');
+
+// Load VehicleOwner Model
+require('../models/VehicleOwner');
+const VehicleOwner = mongoose.model('vehicleowners');
+
+
+// VehicleOwner Index Page
 router.get('/',  (req, res) => {
 
   var options = {
@@ -27,54 +30,36 @@ router.get('/',  (req, res) => {
     }
   });
 
-  // request.post({
-  //   headers: {'content-type' : 'application/x-www-form-urlencoded'},
-  //   url:     customer_api.customerHostPort,
-  //   body:    "{customer: 'Your todo'}"
-    
-  // }, function(error, response, res){
-  //   console.log(res);
-  // });
 
 
-        request.post(customer_api.customerHostPort
-        ,(err,res)=>{
-            if(err!=null)
-            {
-                // console.log(1)
-                // console.log(err);
-            }
-            else
-            {
-                // console.log(res);
-            }
-        });
-  Idea.find({user: req.user.id})
+
+       
+  VehicleOwner.find({user: req.user.id})
     .sort({date:'desc'})
-    .then(ideas => {
-      res.render('ideas/index', {
-        ideas:ideas
+    .then(vehicleowners => {
+      res.render('vehicleowners/index', {
+        vehicleowners:vehicleowners
       });
     });
 });
 
-// Add Idea Form
+// Add VehicleOwner Form
 router.get('/add', ensureAuthenticated, (req, res) => {
-  res.render('ideas/add');
+  res.render('vehicleowners/add');
 });
 
-// Edit Idea Form
+// Edit VehicleOwner Form
 router.get('/edit/:id', ensureAuthenticated, (req, res) => {
-  Idea.findOne({
+  VehicleOwner.findOne({
     _id: req.params.id
   })
-  .then(idea => {
-    if(idea.user != req.user.id){
+  .then(vehicleowner => {
+    if(vehicleowner.user != req.user.id){
       req.flash('error_msg', 'Not Authorized');
-      res.redirect('/ideas');
+      res.redirect('/vehicleowners');
     } else {
-      res.render('ideas/edit', {
-        idea:idea
+      res.render('vehicleowners/edit', {
+        vehicleowner:vehicleowner
       });
     }
     
@@ -128,39 +113,39 @@ router.post('/', ensureAuthenticated, (req, res) => {
       details: req.body.details,
       user: req.user.id
     }
-    new Idea(newUser)
+    new VehicleOwner(newUser)
       .save()
-      .then(idea => {
-        req.flash('success_msg', 'Video idea added');
-        res.redirect('/ideas');
+      .then(vehicleowner => {
+        req.flash('success_msg', 'Video vehicleowner added');
+        res.redirect('/vehicleowners');
       })
   }
 });
 
 // Edit Form process
 router.put('/:id', ensureAuthenticated, (req, res) => {
-  Idea.findOne({
+  VehicleOwner.findOne({
     _id: req.params.id
   })
-  .then(idea => {
+  .then(vehicleowner => {
     // new values
-    idea.title = req.body.title;
-    idea.details = req.body.details;
+    vehicleowner.title = req.body.title;
+    vehicleowner.details = req.body.details;
 
-    idea.save()
-      .then(idea => {
-        req.flash('success_msg', 'Video idea updated');
-        res.redirect('/ideas');
+    vehicleowner.save()
+      .then(vehicleowner => {
+        req.flash('success_msg', 'Video vehicleowner updated');
+        res.redirect('/vehicleowners');
       })
   });
 });
 
-// Delete Idea
+// Delete VehicleOwner
 router.delete('/:id', ensureAuthenticated, (req, res) => {
-  Idea.remove({_id: req.params.id})
+  VehicleOwner.remove({_id: req.params.id})
     .then(() => {
-      req.flash('success_msg', 'Video idea removed');
-      res.redirect('/ideas');
+      req.flash('success_msg', 'Video vehicleowner removed');
+      res.redirect('/vehicleowners');
     });
 });
 

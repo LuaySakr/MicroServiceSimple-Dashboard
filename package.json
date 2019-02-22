@@ -10,7 +10,8 @@
   "dependencies": {
     "appmetrics-zipkin": "^1.1.1",
     "bcryptjs": "^2.4.3",
-    "body-parser": "^1.18.1",
+    "body-parser": "^1.18.3",
+    "circular-json": "^0.5.9",
     "connect-flash": "^0.1.1",
     "express": "^4.15.4",
     "express-handlebars": "^3.0.0",
@@ -23,6 +24,7 @@
     "passport-local": "^1.0.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
+    "stringfy": "0.0.12",
     "zipkin": "^0.16.2"
   }
 }

@@ -22,3 +22,18 @@ const IdeaSchema = new Schema({
 });
 
 mongoose.model('ideas', IdeaSchema);
+
+// {
+//   this.loggingIn = true
+//   this.errorMessage = ''
+
+//   const credentials = {
+//     username: this.credentials.username,
+//     password: this.credentials.password
+//   }
+
+//   this.$auth.login(credentials, 'todos').then(response => {
+//     this.loggingIn = false
+//     this.errorMessage = response.body.message
+//   })
+// }

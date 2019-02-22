@@ -2,13 +2,53 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 const {ensureAuthenticated} = require('../helpers/auth');
-
+const request = require("request");
+const requestPr = require("request-promise");
+const customer_api = require('../config/customer');
 // Load Idea Model
 require('../models/Idea');
 const Idea = mongoose.model('ideas');
 
+
 // Idea Index Page
-router.get('/', ensureAuthenticated, (req, res) => {
+router.get('/',  (req, res) => {
+
+  var options = {
+    uri: customer_api.customerHostPort,
+    method: 'POST',
+    json: {
+      customer: 'Your todo111'
+    }
+  };
+  
+  request(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log(body) // Print the shortened url.
+    }
+  });
+
+  // request.post({
+  //   headers: {'content-type' : 'application/x-www-form-urlencoded'},
+  //   url:     customer_api.customerHostPort,
+  //   body:    "{customer: 'Your todo'}"
+    
+  // }, function(error, response, res){
+  //   console.log(res);
+  // });
+
+
+        request.post(customer_api.customerHostPort
+        ,(err,res)=>{
+            if(err!=null)
+            {
+                // console.log(1)
+                // console.log(err);
+            }
+            else
+            {
+                // console.log(res);
+            }
+        });
   Idea.find({user: req.user.id})
     .sort({date:'desc'})
     .then(ideas => {
@@ -43,6 +83,30 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
 
 // Process Form
 router.post('/', ensureAuthenticated, (req, res) => {
+
+  request.post(customer_api.customerHostPort
+  ,(err,res)=>{
+      if(err!=null)
+      {
+          // console.log(1)
+          // console.log(err);
+      }
+      else
+      {
+          // console.log(res);
+      }
+  });
+
+
+  request.post({
+    headers: {'content-type' : 'application/x-www-form-urlencoded'},
+    url:     customer_api.customerHostPort,
+    body:    '{customer: "Your todo"}'
+  }, function(error, response, body){
+    console.log(body);
+  });
+
+  customer_api+"/api/customers"
   let errors = [];
 
   if(!req.body.title){

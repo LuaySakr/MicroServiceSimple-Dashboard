@@ -13,9 +13,14 @@ const app = express();
 // Load routes
 const ideas = require('./routes/ideas');
 const users = require('./routes/users');
+const customer_api = require('./config/customer');
+// exports('customer_api');
+// const zh = require('./config/zipkin');
+// const zh = require('./config/zipkin');
 
+const zh = require('./config/zipkin');
 const appzip = require('appmetrics-zipkin')({
-  host: 'zipkin',
+  host: zh.zipkinHost,
   port: 9411,
   serviceName: 'dashboard-web'
 });
@@ -26,6 +31,7 @@ var opbeat = require('opbeat').start(
 require('./config/passport')(passport);
 // DB Config
 const db = require('./config/database');
+
 
 // Map global promise - get rid of warning
 mongoose.Promise = global.Promise;

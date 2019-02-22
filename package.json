@@ -1,17 +1,15 @@
 {
-  "name": "vidjot",
+  "name": "vehicles",
   "version": "1.0.0",
-  "description": "App to create video ideas",
+  "description": "App to monitor the status of vehicles",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
   },
-  "author": "Brad Traversy",
-  "license": "MIT",
+  "author": "Luay Sakr",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
     "appmetrics-zipkin": "^1.1.1",
-    "zipkin": "^0.16.2",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.1",
     "connect-flash": "^0.1.1",
     "express": "^4.15.4",
@@ -19,8 +17,12 @@
     "express-session": "^1.15.5",
     "method-override": "^2.3.9",
     "mongoose": "^4.11.12",
-    "passport": "^0.4.0",
+    "nodemon": "^1.18.10",
     "opbeat": "^3.6.6",
-    "passport-local": "^1.0.0"
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
+    "zipkin": "^0.16.2"
   }
 }

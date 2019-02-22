@@ -51,36 +51,38 @@ router.post('/', ensureAuthenticated, (req, res) => {
   
   let errors = [];
 
-  if(!req.body.number){
-    errors.push({text:'Please add a Number'});
-  }
-  if(!req.body.name){
-    errors.push({text:'Please add a Name'});
-  }
-  if(!req.body.adrs){
-    errors.push({text:'Please add some Address'});
-  }
+  // if(!req.body.number){
+  //   errors.push({text:'Please add a Number'});
+  // }
+  // if(!req.body.name){
+  //   errors.push({text:'Please add a Name'});
+  // }
+  // if(!req.body.adrs){
+  //   errors.push({text:'Please add some Address'});
+  // }
 
-  if(errors.length > 0){
-    res.render('/add', {
-      errors: errors,
-      number: req.body.number,
-      name : req.body.name,
-      adrs: req.body.adrs
-    });
-  } else {
-    const newUser = {
-      number: req.body.number,
-      name : req.body.name,
-      adrs: req.body.adrs
-    }
-    new Customer(newUser)
-      .save()
-      .then(customer => {
-        req.flash('success_msg', 'customer added');
-        res.redirect('/customers');
-      })
-  }
+  // if(errors.length > 0){
+  //   res.render('/add', {
+  //     errors: errors,
+  //     number: req.body.number,
+  //     name : req.body.name,
+  //     adrs: req.body.adrs
+  //   });
+  // } 
+  // else 
+  // {
+  //   const newUser = {
+  //     number: req.body.number,
+  //     name : req.body.name,
+  //     adrs: req.body.adrs
+  //   }
+  //   new Customer(newUser)
+  //     .save()
+  //     .then(customer => {
+  //       req.flash('success_msg', 'customer added');
+  //       res.redirect('/customers');
+  //     })
+  // }
 
   console.log(req.body)
   var options = {
@@ -98,6 +100,9 @@ router.post('/', ensureAuthenticated, (req, res) => {
       console.log(body) // Print the shortened url.
     }
   });
+
+  console.log("done")
+  res.redirect('/customers');
 });
 
 // Edit Form process

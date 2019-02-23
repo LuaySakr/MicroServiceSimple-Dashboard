@@ -8,7 +8,7 @@
 
   <p>{{adrs}}</p>
 
-  <a class="btn btn-dark btn-block mb-2" href="/customers/edit/{{number}}">Edit</a>
+  {{!-- <a class="btn btn-dark btn-block mb-2" href="/customers/edit/{{number}}">Edit</a> --}}
 
   <form method="post" action="/customers/{{number}}?_method=DELETE">
 
@@ -22,6 +22,6 @@
 
 {{else}}
 
-<p>No video customers listed</p>
+<p>No  customers listed</p>
 
 {{/each}}

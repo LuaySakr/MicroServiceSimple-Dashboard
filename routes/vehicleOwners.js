@@ -1,152 +1,224 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-const {ensureAuthenticated} = require('../helpers/auth');
+const { ensureAuthenticated } = require('../helpers/auth');
 const request = require("request");
 const requestPr = require("request-promise");
 
-
 const vehicleowner_api = require('../config/vehicleowner');
 
-// Load VehicleOwner Model
+// Load vehicleowner Model
 require('../models/VehicleOwner');
 const VehicleOwner = mongoose.model('vehicleowners');
 
 
-// VehicleOwner Index Page
-router.get('/',  (req, res) => {
-
+// vehicleowner Index Page
+router.get('/', (req, res) => {
   var options = {
-    uri: customer_api.customerHostPort,
-    method: 'POST',
-    json: {
-      customer: 'Your todo111'
-    }
+
+    uri: vehicleowner_api.vehicleownerHostPort,
+
+    method: 'GET'
+
+
+
   };
-  
+
+ 
+
+  // //console.log(options)
   request(options, function (error, response, body) {
+
     if (!error && response.statusCode == 200) {
-      console.log(body) // Print the shortened url.
-    }
-  });
+     
+      //console.log(JSON.parse(body).vehicleowner);
 
-
-
-
-       
-  VehicleOwner.find({user: req.user.id})
-    .sort({date:'desc'})
-    .then(vehicleowners => {
       res.render('vehicleowners/index', {
-        vehicleowners:vehicleowners
+ 
+        vehicleowners: JSON.parse(body).vehicleowner
+
       });
-    });
+
+
+
+
+
+
+    }
+    else {
+
+      //console.log(error);
+    }
+
+  })
 });
 
-// Add VehicleOwner Form
+// Add vehicleowner Form
 router.get('/add', ensureAuthenticated, (req, res) => {
   res.render('vehicleowners/add');
 });
 
-// Edit VehicleOwner Form
+
+// Edit vehicleowner Form
 router.get('/edit/:id', ensureAuthenticated, (req, res) => {
-  VehicleOwner.findOne({
+  vehicleowner.findOne({
     _id: req.params.id
   })
-  .then(vehicleowner => {
-    if(vehicleowner.user != req.user.id){
-      req.flash('error_msg', 'Not Authorized');
-      res.redirect('/vehicleowners');
-    } else {
-      res.render('vehicleowners/edit', {
-        vehicleowner:vehicleowner
-      });
-    }
-    
-  });
+    .then(vehicleowner => {
+      if (vehicleowner.user != req.user.id) {
+        req.flash('error_msg', 'Not Authorized');
+        res.redirect('/vehicleowners');
+      } else {
+        res.render('vehicleowners/edit', {
+          vehicleowner: vehicleowner
+        });
+      }
+
+    });
 });
 
 // Process Form
 router.post('/', ensureAuthenticated, (req, res) => {
 
-  request.post(customer_api.customerHostPort
-  ,(err,res)=>{
-      if(err!=null)
-      {
-          // console.log(1)
-          // console.log(err);
-      }
-      else
-      {
-          // console.log(res);
-      }
-  });
-
-
-  request.post({
-    headers: {'content-type' : 'application/x-www-form-urlencoded'},
-    url:     customer_api.customerHostPort,
-    body:    '{customer: "Your todo"}'
-  }, function(error, response, body){
-    console.log(body);
-  });
-
-  customer_api+"/api/customers"
   let errors = [];
 
-  if(!req.body.title){
-    errors.push({text:'Please add a title'});
-  }
-  if(!req.body.details){
-    errors.push({text:'Please add some details'});
+
+
+  if (!req.body.number) {
+
+    errors.push({ text: 'Please add a Number' });
+
   }
 
-  if(errors.length > 0){
-    res.render('/add', {
-      errors: errors,
-      title: req.body.title,
-      details: req.body.details
-    });
-  } else {
-    const newUser = {
-      title: req.body.title,
-      details: req.body.details,
-      user: req.user.id
-    }
-    new VehicleOwner(newUser)
-      .save()
-      .then(vehicleowner => {
-        req.flash('success_msg', 'Video vehicleowner added');
-        res.redirect('/vehicleowners');
-      })
+  if (!req.body.vehicleId) {
+
+    errors.push({ text: 'Please add a vehicleownerId' });
+
   }
+
+  if (!req.body.customerNum) {
+
+    errors.push({ text: 'Please add some RegNum' });
+
+  }
+
+
+  
+  if (errors.length > 0) {
+    console.log("1111111111111111111")
+    //console.log(errors)
+    res.render('/add', {
+
+      errors: errors,
+
+      number: req.body.number,
+
+      name: req.body.vehicleId,
+
+      adrs: req.body.customerNum
+
+    });
+
+  }
+
+  else {
+
+    console.log("222222222222222")
+    const newUser = {
+
+      number: req.body.number,
+
+      vehicleId: req.body.vehicleId,
+
+      customerNum: req.body.customerNum
+
+    }
+
+    new VehicleOwner(newUser)
+
+  }
+
+
+
+
+
+  var options = {
+
+    uri: vehicleowner_api.vehicleownerHostPort,
+
+    method: 'POST',
+
+    json: {
+
+      number: req.body.number,
+
+      vehicleId: req.body.vehicleId,
+
+      customerNum: req.body.customerNum
+
+    }
+
+  };
+
+
+
+  request(options, function (error, response, body) {
+
+    if (!error && response.statusCode == 200) {
+
+
+    }
+
+  });
+
+
+  res.redirect('/vehicleowners');
+
 });
 
 // Edit Form process
-router.put('/:id', ensureAuthenticated, (req, res) => {
-  VehicleOwner.findOne({
-    _id: req.params.id
+router.put('/:number', ensureAuthenticated, (req, res) => {
+  vehicleowner.findOne({
+    _id: req.params.number
   })
-  .then(vehicleowner => {
-    // new values
-    vehicleowner.title = req.body.title;
-    vehicleowner.details = req.body.details;
-
-    vehicleowner.save()
-      .then(vehicleowner => {
-        req.flash('success_msg', 'Video vehicleowner updated');
-        res.redirect('/vehicleowners');
-      })
-  });
+   
 });
 
-// Delete VehicleOwner
+// Delete vehicleowner
 router.delete('/:id', ensureAuthenticated, (req, res) => {
-  VehicleOwner.remove({_id: req.params.id})
-    .then(() => {
-      req.flash('success_msg', 'Video vehicleowner removed');
-      res.redirect('/vehicleowners');
-    });
+ 
+ 
+
+
+  var options = {
+
+    uri: vehicleowner_api.vehicleownerHostPort + "/" + req.params.id,
+
+    method: 'DELETE',
+
+
+
+  };
+
+
+
+  request(options, function (error, response, body) {
+
+    if (!error && response.statusCode == 200) {
+
+      vehicleowner: JSON.parse(body).vehicleowner
+
+    }
+    res.redirect('/vehicleowners');
+  });
+
+ 
+
+
+
+
+
+
 });
 
 module.exports = router;

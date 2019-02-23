@@ -1,13 +1,17 @@
 <div class="card card-body">
-  <h3>Video Vehicle</h3>
+  <h3> Vehicle</h3>
   <form action="/vehicles" method="post">
     <div class="form-group">
-      <label for="title">Title</label>
-      <input type="text" class="form-control" name="title" required>
+      <label for="number">Number</label>
+      <input type="number" class="form-control" name="number" required>
     </div>
     <div class="form-group">
-      <label for="details">Details</label>
-      <textarea class="form-control" name="details" required></textarea>
+      <label for="vehicleId">VehicleId</label>
+      <textarea class="form-control" name="vehicleId" required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="regNum">RegNum</label>
+      <textarea class="form-control" name="regNum" required></textarea>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>

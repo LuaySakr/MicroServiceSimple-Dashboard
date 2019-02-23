@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-3">
   <div class="container">
-    <a class="navbar-brand" href="/">Vehicles</a>
+    <a class="navbar-brand" href="/">Monitor</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
       aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -16,13 +16,31 @@
       </ul>
       <ul class="navbar-nav ml-auto">
         {{#if user}}
+                <li class="nav-item">
+          <a class="nav-link" href="/">Monitor</a>
+        </li>
           <li class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">Video Vehicles</a>
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink"> Vehicles</a>
             <div class="dropdown-menu">
               <a href="/vehicles" class="dropdown-item">Vehicles</a>
               <a href="/vehicles/add" class="dropdown-item">Add Vehicle</a>
             </div>
           </li>
+          <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink"> Customers</a>
+            <div class="dropdown-menu">
+              <a href="/Customers" class="dropdown-item">Customers</a>
+              <a href="/Customers/add" class="dropdown-item">Add Customers</a>
+            </div>
+          </li>
+           <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink"> VehicleOwners</a>
+            <div class="dropdown-menu">
+              <a href="/VehicleOwners" class="dropdown-item">VehicleOwners</a>
+              <a href="/VehicleOwners/add" class="dropdown-item">Add VehicleOwners</a>
+            </div>
+          </li>
+           
           <li class="nav-item">
             <a href="/users/logout" class="nav-link">Logout</a>
           </li>

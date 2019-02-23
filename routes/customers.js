@@ -1,21 +1,18 @@
 const express = require('express');
-
 const mongoose = require('mongoose');
-
 const router = express.Router();
-
 const { ensureAuthenticated } = require('../helpers/auth');
-
 const request = require("request");
-
 const requestPr = require("request-promise");
+
 
 const customer_api = require('../config/customer');
 
+
+
+
 // Load Customer Model
-
 require('../models/Customer');
-
 const Customer = mongoose.model('customers');
 
 

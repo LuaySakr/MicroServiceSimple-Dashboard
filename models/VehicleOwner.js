@@ -3,21 +3,14 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const VehicleOwnerSchema = new Schema({
-  title:{
-    type: String,
-    required: true
+  number:{
+    type: Number
   },
-  details:{
-    type: String,
-    required: true
+  vehicleNum:{
+    type: String
   },
-  user:{
-    type: String,
-    required:true
-  },
-  date: {
-    type: Date,
-    default: Date.now
+  customerNum:{
+    type: String
   }
 });
 

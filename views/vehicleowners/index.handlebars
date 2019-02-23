@@ -1,15 +1,62 @@
+  <script>
+function myFunction() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
+  
+  <meta http-equiv="refresh" content="10"/>
+
+  <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names..">
+
+<table id="myTable">
+  <tr class="header">
+    <th style="width:20%;">Number</th>
+    <th style="width:20%;">Customer</th>
+     <th style="width:20%;">Vehicle</th>
+      <th style="width:20%;">Status</th>
+       <th style="width:20%;">Delete</th>
+
+
+  </tr>
 {{#each vehicleowners}}
-  <div class="card card-body mb-2">
-    <h4>{{number}}</h4>
-    <p>{{vehicleId}}</p>
-      <p>{{customerNum}}</p>
-      <img  ></img>
-    {{!-- <a class="btn btn-dark btn-block mb-2" href="/vehicles/edit/{{id}}">Edit</a> --}}
-    <form method="post" action="/vehicleOwners/{{number}}?_method=DELETE">
+  <tr>
+                <td><p>{{number}}</p></td> 
+            <td><p>{{vehicleId}}</p></td> 
+            <td><p>{{customerNum}}</p></td> 
+             <td>
+                {{#if status}}
+    <p class="btn-success"> ON</p>
+      {{else}}
+    <p class="btn-warning">OFF</p>
+  {{/if}}
+
+
+           </td> 
+             </script>
+             <td>
+                  <form method="post" action="/vehicleOwners/{{number}}?_method=DELETE">
       <input type="hidden" name="_method" value="DELETE">
-      <input type="submit" class="btn btn-danger btn-block" value="Delete">
+      <input type="submit" class="btn btn-danger " value="Delete">
     </form>
-  </div>
-{{else}}
-  <p>No vehicleowners listed</p>
+            </td>
+  </tr>
+
 {{/each}}

@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 const router = express.Router();
 
-const {ensureAuthenticated} = require('../helpers/auth');
+const { ensureAuthenticated } = require('../helpers/auth');
 
 const request = require("request");
 
@@ -24,7 +24,6 @@ const Customer = mongoose.model('customers');
 
 router.get('/', ensureAuthenticated, (req, res) => {
 
-  // console.log(req.body)
 
   var options = {
 
@@ -32,63 +31,33 @@ router.get('/', ensureAuthenticated, (req, res) => {
 
     method: 'GET'
 
-   
+
 
   };
 
-  
+
 
   request(options, function (error, response, body) {
 
     if (!error && response.statusCode == 200) {
 
-      // console.log(JSON.parse(body))
+
 
       res.render('customers/index', {
 
-        customers:JSON.parse(body).customer
+        customers: JSON.parse(body).customer
 
       });
 
- 
 
 
 
-      // console.log(body) // Print the shortened url.
+
 
     }
 
   })
 
-  // .then();
-
-  // res.render('customers/index', {
-
-  //   customers:customers
-
-  // });
-
-
-
-  // console.log("done")
-
-  // res.redirect('/customers');
-
-
-
-  // Customer.find({user: req.user.id})
-
-  //   .sort({date:'desc'})
-
-  //   .then(customers => {
-
-  //     res.render('customers/index', {
-
-  //       customers:customers
-
-  //     });
-
-  //   });
 
 });
 
@@ -110,20 +79,59 @@ router.get('/add', ensureAuthenticated, (req, res) => {
 
 
 
-// Edit Customer Form
-
-router.get('/edit/:id', ensureAuthenticated, (req, res) => {
 
 
 
-  console.log(req.params)
-  var options = {
 
-    uri: customer_api.customerHostPort+"/"+req.params.id,
+// Process Form
 
-    method: 'PUT',
+router.post('/', ensureAuthenticated, (req, res) => {
 
-    json: {
+
+
+  let errors = [];
+
+
+
+  if (!req.body.number) {
+
+    errors.push({ text: 'Please add a Number' });
+
+  }
+
+  if (!req.body.name) {
+
+    errors.push({ text: 'Please add a Name' });
+
+  }
+
+  if (!req.body.adrs) {
+
+    errors.push({ text: 'Please add some Address' });
+
+  }
+
+
+
+  if (errors.length > 0) {
+
+    res.render('/add', {
+
+      errors: errors,
+
+      number: req.body.number,
+
+      name: req.body.name,
+
+      adrs: req.body.adrs
+
+    });
+
+  }
+
+  else {
+
+    const newUser = {
 
       number: req.body.number,
 
@@ -133,176 +141,13 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
 
     }
 
-  };
-
-  
-
-  request(options, function (error, response, body) {
-
-    if (!error && response.statusCode == 200) {
-
-      customer:JSON.parse(body).customer
-
-    }
-
-  });
-
-
-      //   res.render('customers/edit', {
-
-      //  number:1
-
-      // });
-  // Customer.findOne({
-
-  //   _id: req.params.number
-
-  // })
-
-  // .then(customer => {
-
-    // if(customer.user != req.user.id){
-
-    //   req.flash('error_msg', 'Not Authorized');
-
-    //   res.redirect('/customers');
-
-    // } else
-    //  {
-
-    //   res.render('customers/edit', {
-
-    //     customer:customer
-
-    //   });
-
-    // }
-
-    
-
-  // });
-
-
-
-  // console.log(req.body)
-
-  // var options = {
-
-  //   uri: customer_api.customerHostPort+req.params.id,
-
-  //   method: 'PUT',
-
-  //   json: {
-
-  //     number: req.body.number,
-
-  //     name: req.body.name,
-
-  //     adrs: req.body.adrs
-
-  //   }
-
-  // };
-
-  
-
-  // request(options, function (error, response, body) {
-
-  //   if (!error && response.statusCode == 200) {
-
-  //     console.log(body) // Print the shortened url.
-
-  //   }
-
-  // });
-
-
-
-  // console.log("done")
-
-  // res.redirect('/customers');
-
-});
-
-
-
-// Process Form
-
-router.post('/', ensureAuthenticated, (req, res) => {
-
-  
-
-  let errors = [];
-
-
-
-  if(!req.body.number){
-
-    errors.push({text:'Please add a Number'});
-
-  }
-
-  if(!req.body.name){
-
-    errors.push({text:'Please add a Name'});
-
-  }
-
-  if(!req.body.adrs){
-
-    errors.push({text:'Please add some Address'});
-
-  }
-
-
-
-  if(errors.length > 0){
-
-    res.render('/add', {
-
-      errors: errors,
-
-      number: req.body.number,
-
-      name : req.body.name,
-
-      adrs: req.body.adrs
-
-    });
-
-  } 
-
-  else 
-
-  {
-
-    const newUser = {
-
-      number: req.body.number,
-
-      name : req.body.name,
-
-      adrs: req.body.adrs
-
-    }
-
     new Customer(newUser)
 
-      // .save()
-
-      // .then(customer => {
-
-      //   req.flash('success_msg', 'customer added');
-
-      //   res.redirect('/customers');
-
-      // })
-
   }
 
 
 
-  // console.log(req.body)
+
 
   var options = {
 
@@ -322,21 +167,17 @@ router.post('/', ensureAuthenticated, (req, res) => {
 
   };
 
-  
+
 
   request(options, function (error, response, body) {
 
     if (!error && response.statusCode == 200) {
 
-      // console.log(body) // Print the shortened url.
 
     }
 
   });
 
-
-
-  // console.log("done")
 
   res.redirect('/customers');
 
@@ -348,36 +189,6 @@ router.post('/', ensureAuthenticated, (req, res) => {
 
 router.put('/:number', ensureAuthenticated, (req, res) => {
 
-  // Customer.findOne({
-
-  //   _id: req.params.number
-
-  // })
-
-  // .then(customer => {
-
-  //   // new values
-
-
-  //   customer.number = req.body.number;
-
-  //   customer.name = req.body.name;
-
-  //   customer.adrs = req.body.adrs;
-
-
-
-  //   customer.save()
-
-  //     .then(customer => {
-
-  //       req.flash('success_msg', 'Video customer updated');
-
-  //       res.redirect('/customers');
-
-  //     })
-
-  // });
 
 });
 
@@ -387,15 +198,33 @@ router.put('/:number', ensureAuthenticated, (req, res) => {
 
 router.delete('/:id', ensureAuthenticated, (req, res) => {
 
-  Customer.remove({_id: req.params.id})
 
-    .then(() => {
 
-      req.flash('success_msg', 'Video customer removed');
+  console.log("============================")
+  console.log(req.params)
+  console.log(customer_api.customerHostPort + "/" + req.params.id)
+  var options = {
 
-      res.redirect('/customers');
+    uri: customer_api.customerHostPort + "/" + req.params.id,
 
-    });
+    method: 'DELETE',
+
+
+
+  };
+
+
+
+  request(options, function (error, response, body) {
+
+    if (!error && response.statusCode == 200) {
+
+      customer: JSON.parse(body).customer
+
+    }
+    res.redirect('/customers');
+  });
+
 
 });
 

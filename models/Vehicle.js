@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
 // Create Schema
 const VehicleSchema = new Schema({
   number:{
@@ -13,6 +12,4 @@ const VehicleSchema = new Schema({
     type: String
   }
 });
-
 mongoose.model('vehicles', VehicleSchema);
-

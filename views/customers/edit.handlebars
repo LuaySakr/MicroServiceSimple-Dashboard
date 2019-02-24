@@ -1,51 +1,25 @@
 {{#each errors}}
 
 <div class="alert alert-danger">{{text}}</div>
-
 {{else}}
-
-
-
 {{/each}}
-
-
-
 <div class="card card-body">
-
   
-
   <h3>Edit  Customer</h3>
-
   <form action="/customers/{{customer.number}}?_method=PUT" method="post">
-
     <input type="hidden" name="_method" value="PUT">
-
     <div class="form-group">
-
       <label for="number">Number</label>
-
       <input type="text" class="form-control" name="number" required>
-
     </div>
-
     <div class="form-group">
-
       <label for="name">Name</label>
-
       <input type="text" class="form-control" name="name" required>
-
     </div>
-
     <div class="form-group">
-
       <label for="adrs">Address</label>
-
       <textarea class="form-control" name="adrs" required></textarea>
-
     </div>
-
     <button type="submit" class="btn btn-primary">Submit</button>
-
   </form>
-
 </div>

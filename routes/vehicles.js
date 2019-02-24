@@ -15,7 +15,7 @@ const Vehicle = mongoose.model('vehicles');
 // Vehicle Index Page
 router.get('/', (req, res) => {
 
-  console.log(vehicle_api.vehicleHostPort)
+ 
   var options = {
 
     uri: vehicle_api.vehicleHostPort,

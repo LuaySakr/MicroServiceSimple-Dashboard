@@ -197,9 +197,7 @@ router.delete('/:id', ensureAuthenticated, (req, res) => {
 
 
 
-  console.log("============================")
-  console.log(req.params)
-  console.log(customer_api.customerHostPort + "/" + req.params.id)
+ 
   var options = {
 
     uri: customer_api.customerHostPort + "/" + req.params.id,

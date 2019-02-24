@@ -105,8 +105,7 @@ router.post('/', ensureAuthenticated, (req, res) => {
 
   
   if (errors.length > 0) {
-    console.log("1111111111111111111")
-    //console.log(errors)
+   
     res.render('/add', {
 
       errors: errors,
@@ -123,7 +122,7 @@ router.post('/', ensureAuthenticated, (req, res) => {
 
   else {
 
-    console.log("222222222222222")
+   
     const newUser = {
 
       number: req.body.number,

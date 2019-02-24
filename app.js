@@ -19,7 +19,7 @@ const vehicle_api = require('./config/vehicle');
 const vehicleOwner_api = require('./config/vehicleowner');
 const zh = require('./config/zipkin');
 const appzip = require('appmetrics-zipkin')({
-  host: 'localhost',
+  host: 'zipkin',
   port: 9411,
   serviceName: 'dashboard-web'
 });

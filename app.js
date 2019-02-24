@@ -9,7 +9,6 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 
 const app = express();
-
 // Load routes
 const vehicles = require('./routes/vehicles');
 const customers = require('./routes/customers');
@@ -18,7 +17,6 @@ const users = require('./routes/users');
 const customer_api = require('./config/customer');
 const vehicle_api = require('./config/vehicle');
 const vehicleOwner_api = require('./config/vehicleowner');
-
 const zh = require('./config/zipkin');
 const appzip = require('appmetrics-zipkin')({
   host: zh.zipkinHost,
@@ -26,14 +24,11 @@ const appzip = require('appmetrics-zipkin')({
   serviceName: 'dashboard-web'
 });
 var opbeat = require('opbeat').start(
-
   )
 // Passport Config
 require('./config/passport')(passport);
 // DB Config
 const db = require('./config/database');
-
-
 // Map global promise - get rid of warning
 mongoose.Promise = global.Promise;
 // Connect to mongoose
@@ -42,36 +37,28 @@ mongoose.connect(db.mongoURI, {
 })
   .then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err));
-
 // Handlebars Middleware
 app.engine('handlebars', exphbs({
   defaultLayout: 'main'
 }));
 app.set('view engine', 'handlebars');
-
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 // Static folder
 app.use(express.static(path.join(__dirname, 'public')));
-
 // Method override middleware
 app.use(methodOverride('_method'));
-
 // Express session midleware
 app.use(session({
   secret: 'secret',
   resave: true,
   saveUninitialized: true
 }));
-
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use(flash());
-
 // Global variables
 app.use(function(req, res, next){
   res.locals.success_msg = req.flash('success_msg');
@@ -80,7 +67,6 @@ app.use(function(req, res, next){
   res.locals.user = req.user || null;
   next();
 });
-
 // Index Route
 app.get('/', (req, res) => {
   const title = 'Welcome';
@@ -88,21 +74,16 @@ app.get('/', (req, res) => {
     title: title
   });
 });
-
 // About Route
 app.get('/about', (req, res) => {
   res.render('about');
 });
-
-
 // Use routes
 app.use('/vehicleOwners', vehicleOwners);
 app.use('/vehicles', vehicles);
 app.use('/customers', customers);
 app.use('/users', users);
-
 const port = process.env.PORT || 7004;
-
 app.listen(port, () =>{
   console.log(`Server started on port ${port}`);
 });

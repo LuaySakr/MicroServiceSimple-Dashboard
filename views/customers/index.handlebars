@@ -1,27 +1,14 @@
 {{#each customers}}
-
 <div class="card card-body mb-2">
-
   <h4>{{number}}</h4>
-
   <h4>{{name}}</h4>
-
   <p>{{adrs}}</p>
-
   {{!-- <a class="btn btn-dark btn-block mb-2" href="/customers/edit/{{number}}">Edit</a> --}}
-
   <form method="post" action="/customers/{{number}}?_method=DELETE">
-
     <input type="hidden" name="_method" value="DELETE">
-
     <input type="submit" class="btn btn-danger btn-block" value="Delete">
-
   </form>
-
 </div>
-
 {{else}}
-
 <p>No  customers listed</p>
-
 {{/each}}

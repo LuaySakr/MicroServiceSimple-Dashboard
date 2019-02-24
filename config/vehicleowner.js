@@ -3,4 +3,3 @@ if(process.env.NODE_ENV === 'docker'){
 } else {
   module.exports = {vehicleownerHostPort: 'http://localhost:7003/api/vehicleowners'}
 }
-

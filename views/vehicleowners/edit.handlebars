@@ -1,9 +1,7 @@
 {{#each errors}}
   <div class="alert alert-danger">{{text}}</div>
 {{else}}
-
 {{/each}}
-
 <div class="card card-body">
   <h3>Edit Vehicle Owner</h3>
   <form action="/vehicleOwners/{{vehicle.id}}?_method=PUT" method="post">
